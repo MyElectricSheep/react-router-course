@@ -12,17 +12,22 @@ class UserAdd extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
   }
 
+  
+
   handleSubmit(user) {
+    const { history } = this.props
     post('/api/users', user)
-      .then(() => {
+      .then(({ data : u }) => {
         console.log('added:', user);
+        history.push(`/users/${u.id}`)
       });
   }
 
   handleCancel(e) {
     e.preventDefault();
-
+    const { history } = this.props
     console.log('you have canceled');
+    history.push('/users')
   }
 
   render() {

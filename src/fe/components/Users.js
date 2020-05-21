@@ -4,6 +4,9 @@ import { get } from 'axios';
 import times from 'lodash.times';
 import { Helmet } from 'react-helmet';
 import Page from './Page';
+import { Link, Route } from 'react-router-dom'
+import UserInfo from "./UserInfo"
+
 
 const TOTAL_PER_PAGE = 10;
 
@@ -85,7 +88,7 @@ class Users extends React.Component {
         <Table celled striped>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>Email</Table.HeaderCell>
               <Table.HeaderCell>Phone</Table.HeaderCell>
               <Table.HeaderCell>Address</Table.HeaderCell>
@@ -96,7 +99,7 @@ class Users extends React.Component {
           <Table.Body>
             {users.slice(startIndex, startIndex + TOTAL_PER_PAGE).map(user =>
               (<Table.Row key={user.id}>
-                <Table.Cell>{user.name}</Table.Cell>
+                <Link to={`/users/${user.id}`}><Table.Cell>{user.name}</Table.Cell></Link>
                 <Table.Cell>{user.email}</Table.Cell>
                 <Table.Cell>{user.phone}</Table.Cell>
                 <Table.Cell>{user.address}</Table.Cell>
@@ -125,7 +128,8 @@ class Users extends React.Component {
             </Table.Row>
           </Table.Footer>
         </Table>
-        <Button positive>New User</Button>
+        <Button positive onClick={() => this.props.history.push('/users/new')}>New User</Button>
+        <Route path="/users/:userId" component={UserInfo} />
       </Page>
     );
   }

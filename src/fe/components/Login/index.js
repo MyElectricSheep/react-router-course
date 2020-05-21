@@ -1,5 +1,7 @@
 import React from 'react';
 import { Grid, Form, Header, Message } from 'semantic-ui-react';
+import { Redirect } from "react-router-dom"
+import isLoggedIn from "../../helpers/is_logged_in"
 import { Helmet } from 'react-helmet';
 import store from 'store';
 import styles from './styles.css';
@@ -20,7 +22,7 @@ class Login extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    const { history } = this.props;
     const { username, password } = this.state;
 
     this.setState({ error: false });
@@ -30,6 +32,7 @@ class Login extends React.Component {
     }
 
     console.log("you're logged in. yay!");
+    history.push('/users')
     store.set('loggedIn', true);
   }
 
@@ -39,6 +42,9 @@ class Login extends React.Component {
 
   render() {
     const { error } = this.state;
+    if (isLoggedIn()) {
+      return <Redirect to="/users" />;
+    }
 
     return (
       <Grid>

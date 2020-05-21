@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
+import { Prompt } from "react-router-dom"
 
 class UserForm extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class UserForm extends React.Component {
 
     const { user = {} } = props;
 
-    this.state = { user };
+    this.state = { user, formChanged: false };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +33,7 @@ class UserForm extends React.Component {
   handleChange(e, { name, value }) {
     const { user } = this.state;
 
-    this.setState({ user: { ...user, [name]: value } });
+    this.setState({ user: { ...user, [name]: value }, formChanged: true });
   }
 
   render() {
@@ -41,6 +42,7 @@ class UserForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
+      <Prompt message="Are you sure you want to navigate away? Your changes will be lost" when={this.state.formChanged}/>
         <Form.Input
           label="Name"
           type="text"
